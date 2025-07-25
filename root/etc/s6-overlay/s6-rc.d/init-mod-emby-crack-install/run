@@ -1,0 +1,19 @@
+#!/usr/bin/with-contenv bash
+
+# This is an install script that is designed to run after init-mods-package-install
+# so it can take advantage of packages installed
+# init-mods-end depends on this script so that later init and services wait until this script exits
+
+echo "**** Setting up Emby-Crack****"
+
+
+: "${EMBY_PATH:=/app/emby/system}"
+
+FLAG_FILE="$EMBY_PATH/.emby-crack-install"
+
+if [ -f "$FLAG_FILE" ]; then
+    echo "[emby-crack] Already initialized, skipping..."
+    exit 0
+fi
+
+/usr/local/bin/emby-crack && touch "$FLAG_FILE"
