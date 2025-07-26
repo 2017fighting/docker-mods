@@ -1,0 +1,25 @@
+#!/usr/bin/with-contenv bash
+
+# This is an install script that is designed to run after init-mods-package-install
+# so it can take advantage of packages installed
+# init-mods-end depends on this script so that later init and services wait until this script exits
+
+echo "**** Setting up Emby-DD-Danmaku****"
+
+# 目标文件路径
+TARGET_FILE="/app/emby/system/dashboard-ui/index.html"
+# TARGET_FILE="./index.html"
+
+# 要插入的完整script标签
+INSERT_LINE='    <script type="text/javascript" src="./modules/custom/ede.js"></script>'
+
+# 检查是否已经插入过
+if grep -Fq './modules/custom/ede.js' "$TARGET_FILE"; then
+    echo "已经插入过了，无需重复插入。"
+else
+    # 使用sed在 apploader.js 那一行后插入
+    sed -i "/apploader.js/a\\
+$INSERT_LINE
+" "$TARGET_FILE"
+    echo "已成功插入 ede.js 引用。"
+fi
