@@ -43,6 +43,6 @@ Temporary Items
 .apdisk
 
 # CSharp Build results
-bin/
-obj/
-publish/
+/bin/
+/obj/
+/publish/
