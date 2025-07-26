@@ -1,0 +1,7 @@
+## Single layer deployed image ##
+FROM scratch
+
+LABEL maintainer="2017fighting"
+
+# Add files from buildstage
+COPY  /root/ /

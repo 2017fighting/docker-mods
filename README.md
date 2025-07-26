@@ -1,6 +1,6 @@
-## Emby-DD-Danmaku
+## Emby-CRX
 
-感谢 `https://github.com/chen3861229/dd-danmaku`
+感谢 `https://github.com/Nolovenodie/emby-crx`
 
 自动给`dashboad-ui/index.html`打补丁
 
@@ -13,7 +13,9 @@ services:
   emby:
     image: lscr.io/linuxserver/emby:latest
     environment:
-+      DOCKER_MODS: 272567571/mods:emby-dd-danmaku
++      DOCKER_MODS: 272567571/mods:emby-crx
++      EMBY_CRX_PARENTID: 3 # 可选，如果传入则只轮播这些媒体库，进入媒体库后url里的parentId，不支持多个
++      EMBY_HIDETITLE: true # 可选，影响hover媒体库卡片时是否隐藏标题，默认为false，不隐藏，传入true则隐藏
 ```
 3. 如果你已经使用了DOCKER_MODS，可以使用`|`分割多个mods
 ```diff
@@ -21,5 +23,5 @@ services:
   emby:
     image: lscr.io/linuxserver/emby:latest
     environment:
-+      DOCKER_MODS: other-docke-mod|272567571/mods:emby-dd-danmaku
++      DOCKER_MODS: other-docke-mod|272567571/mods:emby-crx
 ```

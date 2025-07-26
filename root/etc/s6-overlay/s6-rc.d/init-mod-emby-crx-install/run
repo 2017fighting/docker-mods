@@ -1,0 +1,28 @@
+#!/usr/bin/with-contenv bash
+
+# This is an install script that is designed to run after init-mods-package-install
+# so it can take advantage of packages installed
+# init-mods-end depends on this script so that later init and services wait until this script exits
+
+echo "**** Setting up Emby-CRX****"
+
+# 目标文件路径
+TARGET_FILE="/app/emby/system/dashboard-ui/index.html"
+# TARGET_FILE="./index.html"
+
+# 获取 parentid 环境变量，若未设置则为空
+PARENTID="${EMBY_CRX_PARENTID:-}"
+HIDETITLE="${EMBY_CRX_HIDETITLE:-false}"
+
+# 构造新的插入行
+INSERT_LINE="    <script type=\"text/javascript\" src=\"./modules/custom/crx.js\" data-parentid=\"$PARENTID\" data-hidetitle=\"$HIDETITLE\"></script>"
+
+# 删除所有含有 ./modules/custom/crx.js 的行
+sed -i '/\.\/modules\/custom\/crx\.js/d' "$TARGET_FILE"
+
+# 插入新的 crx.js 引用行在 apploader.js 那一行之后
+sed -i "/apploader.js/a\\
+$INSERT_LINE
+" "$TARGET_FILE"
+
+echo "已更新 crx.js 引用（parentid=$PARENTID hidetitle=$HIDETITLE）。"
