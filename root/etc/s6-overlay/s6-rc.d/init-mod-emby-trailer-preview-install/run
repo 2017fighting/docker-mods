@@ -21,5 +21,7 @@ else
     sed -i "/apploader.js/a\\
 $INSERT_LINE
 " "$TARGET_FILE"
+    cp /etc/s6-overlay/s6-rc.d/init-mod-emby-trailer-preview-install/trailer-preview.js /app/emby/system/dashboard-ui/modules/custom/trailer-preview.js
+    tail $TARGET_FILE
     echo "已成功插入 trailer-preview.js 引用。"
 fi
