@@ -1,6 +1,6 @@
-## Emby-DD-Danmaku
+## Emby-Trailer-Preview
 
-感谢 `https://github.com/chen3861229/dd-danmaku`
+感谢 `https://github.com/XingyiHua2024/Emby-Javascript-Details/blob/main/list_page_trailer.js`
 
 自动给`dashboad-ui/index.html`打补丁
 
@@ -13,7 +13,7 @@ services:
   emby:
     image: lscr.io/linuxserver/emby:latest
     environment:
-+      DOCKER_MODS: 272567571/mods:emby-dd-danmaku
++      DOCKER_MODS: 272567571/mods:emby-trailer-preview
 ```
 3. 如果你已经使用了DOCKER_MODS，可以使用`|`分割多个mods
 ```diff
@@ -21,5 +21,5 @@ services:
   emby:
     image: lscr.io/linuxserver/emby:latest
     environment:
-+      DOCKER_MODS: other-docke-mod|272567571/mods:emby-dd-danmaku
++      DOCKER_MODS: other-docke-mod|272567571/mods:emby-trailer-preview
 ```
