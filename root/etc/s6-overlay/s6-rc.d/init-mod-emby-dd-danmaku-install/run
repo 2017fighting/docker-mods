@@ -9,17 +9,24 @@ echo "**** Setting up Emby-DD-Danmaku****"
 # 目标文件路径
 TARGET_FILE="/app/emby/system/dashboard-ui/index.html"
 # TARGET_FILE="./index.html"
+LOCK_FILE="/var/lock/emby_index.lock"
 
-# 要插入的完整script标签
-INSERT_LINE='    <script type="text/javascript" src="./modules/custom/ede.js"></script>'
+# 使用 flock 加锁，独占模式 (-x)，阻塞直到获得锁
+(
+  flock -x 200
 
-# 检查是否已经插入过
-if grep -Fq './modules/custom/ede.js' "$TARGET_FILE"; then
-    echo "已经插入过了，无需重复插入。"
-else
-    # 使用sed在 apploader.js 那一行后插入
-    sed -i "/apploader.js/a\\
-$INSERT_LINE
-" "$TARGET_FILE"
-    echo "已成功插入 ede.js 引用。"
-fi
+  # 要插入的完整script标签
+  INSERT_LINE='    <script type="text/javascript" src="./modules/custom/ede.js"></script>'
+  
+  # 检查是否已经插入过
+  if grep -Fq './modules/custom/ede.js' "$TARGET_FILE"; then
+      echo "已经插入过了，无需重复插入。"
+  else
+      # 使用sed在 apploader.js 那一行后插入
+      sed -i "/apploader.js/a\\
+  $INSERT_LINE
+  " "$TARGET_FILE"
+      echo "已成功插入 ede.js 引用。"
+  fi
+
+) 200>"$LOCK_FILE"
